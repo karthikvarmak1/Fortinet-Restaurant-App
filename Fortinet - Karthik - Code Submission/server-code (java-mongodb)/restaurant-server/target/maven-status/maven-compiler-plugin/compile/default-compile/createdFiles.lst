@@ -1,0 +1,8 @@
+com\fortinet\configuration\AppInitializer.class
+com\fortinet\controllers\RestaurantController.class
+com\fortinet\services\RestaurantService.class
+com\fortinet\dao\RestaurantDaoImpl.class
+com\fortinet\dao\RestaurantDao.class
+com\fortinet\services\RestaurantServiceImpl.class
+com\fortinet\beans\Restaurant.class
+com\fortinet\configuration\ApplicationConfig.class

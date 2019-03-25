@@ -1,0 +1,52 @@
+<div class="ui-g ui-fluid" [ngClass]="isDarkTheme ? 'bg-black cl-white': ''">
+    <div class="nav-bar ui-g-12">
+        World Restaurants Web Application
+    </div>
+    <div class="ui-g-12 middle padtop10">
+        <div class="ui-g-8">
+            <input type="text" name="search" [(ngModel)]='searchRestaurant' class="text-search pad5"
+                placeholder="  &#xF002; Search by Restaurant Title" style="font-family:Arial, FontAwesome; font-size: 15px;">
+        </div>
+        <div class="ui-g-4">
+            <!-- <button pButton type="button" class="ui-button-info" label="Clear Filter" (click)="dt.reset()"></button> -->
+            <div class="ui-g-2">
+                <p-inputSwitch [(ngModel)]="isDarkTheme"></p-inputSwitch>
+            </div>
+            <div class="ui-g-10 font-family text-left">
+                <span *ngIf="isDarkTheme">Dark Theme</span>
+                <span *ngIf="!isDarkTheme">Light Theme</span>
+            </div>
+        </div>
+    </div>
+    <div class="ui-g-12 pad20" *ngIf="restaurantModel.restaurantItems && restaurantModel.restaurantItems.length > 0">
+        <p-table #dt [columns]="restaurantModel.columnHeaders" [value]="(restaurantModel.restaurantItems | restaurantsFilter : searchRestaurant)"
+            [paginator]="true" [rows]="10" [totalRecords]="restaurantModel.totalRecords" [rowsPerPageOptions]="[5, 10, 50]">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th [ngClass]="isDarkTheme ? 'bg-black cl-white': ''" *ngFor="let col of columns"
+                        [pSortableColumn]="col.field">
+                        {{col.header}}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                    </th>
+                </tr>
+                <tr>
+                    <th [ngClass]="isDarkTheme ? 'bg-black cl-white': ''" *ngFor="let col of columns">
+                        <input pInputText type="text" placeholder="{{col.header}}"
+                            (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-restaurant let-columns="columns">
+                <tr>
+                    <td [ngClass]="isDarkTheme ? 'bg-black cl-white': ''" *ngFor="let col of columns" class="middle">
+                        <div *ngIf="!(col.field === 'average_Cost_for_two')">{{restaurant[col.field] |
+                valueOrHyphen}}</div>
+                        <div *ngIf="(col.field === 'average_Cost_for_two')">
+                            {{restaurant[col.field] | currency:'USD' | valueOrHyphen}}
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
